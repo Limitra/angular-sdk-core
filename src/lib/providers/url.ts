@@ -5,7 +5,13 @@ export class UrlProvider {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         const element = obj[key];
-        params.set(key, element);
+        if (Array.isArray(element)) {
+          element.forEach(elm => {
+            params.append(key, elm);
+          });
+        } else {
+          params.set(key, element);
+        }
       }
     }
     return params.toString();
