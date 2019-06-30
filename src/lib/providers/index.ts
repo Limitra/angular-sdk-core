@@ -4,6 +4,7 @@ import {Inject, Injectable} from '@angular/core';
 import {StorageProvider} from './storage';
 import {UrlProvider} from './url';
 import {StringProvider} from './string';
+import {NumberProvider} from './number';
 
 @Injectable()
 export class SdkProviders {
@@ -13,4 +14,5 @@ export class SdkProviders {
   Http = new Http(this.http, this.Storage);
   Url = new UrlProvider();
   String = new StringProvider();
+  Number = new NumberProvider();
 }
