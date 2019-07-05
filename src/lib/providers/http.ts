@@ -1,5 +1,5 @@
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {catchError, map} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 import {StorageProvider} from './storage';
 
@@ -7,23 +7,24 @@ export class Http {
   constructor(private http: HttpClient, private storage: StorageProvider) {
   }
 
-  Get(url: string): Observable<any> {
-    return this.http.get(url, this.headers());
+  Get(url: string, error: (HttpErrorResponse) => {} = null): Observable<any> {
+    return this.http.get(url, this.headers())
+      .pipe(catchError((response) => { if (error) { error(response); } return this.handleError(response); }));
   }
 
-  Post(url: string, data: any): Observable<any> {
+  Post(url: string, data: any, error: (HttpErrorResponse) => {} = null): Observable<any> {
     return this.http.post(url, data, this.headers())
-      .pipe(catchError(response => this.handleError(response)));
+      .pipe(catchError((response) => { if (error) { error(response); } return this.handleError(response); }));
   }
 
-  Put(url: string, data: any): Observable<any> {
+  Put(url: string, data: any, error: (HttpErrorResponse) => {} = null): Observable<any> {
     return this.http.put(url, data, this.headers())
-      .pipe(catchError(response => this.handleError(response)));
+      .pipe(catchError((response) => { if (error) { error(response); } return this.handleError(response); }));
   }
 
-  Delete(url: string): Observable<any> {
+  Delete(url: string, error: (HttpErrorResponse) => {} = null): Observable<any> {
     return this.http.delete(url, this.headers())
-      .pipe(catchError(response => this.handleError(response)));
+      .pipe(catchError((response) => { if (error) { error(response); } return this.handleError(response); }));
   }
 
   private headers() {
