@@ -5,6 +5,7 @@ import {StorageProvider} from './storage';
 import {UrlProvider} from './url';
 import {StringProvider} from './string';
 import {NumberProvider} from './number';
+import {ScreenProvider} from './screen';
 
 @Injectable()
 export class SdkProviders {
@@ -15,4 +16,5 @@ export class SdkProviders {
   Url = new UrlProvider();
   String = new StringProvider();
   Number = new NumberProvider();
+  Screen = new ScreenProvider();
 }
