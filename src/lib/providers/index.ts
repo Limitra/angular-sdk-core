@@ -6,10 +6,13 @@ import {UrlProvider} from './url';
 import {StringProvider} from './string';
 import {NumberProvider} from './number';
 import {ScreenProvider} from './screen';
+import {Router} from '@angular/router';
+import {RouterProvider} from './router';
 
 @Injectable()
 export class SdkProviders {
-  constructor(@Inject(HttpClient) public http: HttpClient) {}
+  constructor(@Inject(HttpClient) protected http: HttpClient,
+              @Inject(Router) protected router: Router) {}
 
   Storage = new StorageProvider();
   Http = new Http(this.http, this.Storage);
@@ -17,4 +20,5 @@ export class SdkProviders {
   String = new StringProvider();
   Number = new NumberProvider();
   Screen = new ScreenProvider();
+  Router = new RouterProvider(this.router);
 }
