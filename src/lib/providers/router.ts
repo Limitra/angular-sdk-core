@@ -10,9 +10,7 @@ export class RouterProvider {
   }
 
   Push(route: any) {
-    const param = this.router.config.filter(x => x.path === route.Key)[0];
-    if (param) {
-      this.router.config.push({path: route.Path, component: param.component});
-    }
+    this.router.config.push({path: route.Path, component: route.component});
+    this.router.resetConfig(this.router.config);
   }
 }
