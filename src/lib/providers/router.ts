@@ -8,9 +8,4 @@ export class RouterProvider {
   Navigate(href: string, obj: any = null) {
     this.router.navigate([href], {queryParams: obj});
   }
-
-  Push(route: any) {
-    this.router.config.push({path: route.Path, component: route.component});
-    this.router.resetConfig(this.router.config);
-  }
 }
