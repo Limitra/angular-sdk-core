@@ -41,27 +41,56 @@ export class RouteGuard implements CanActivate {
           const key = response.Data[this.api.Route.KeyField];
           const routes = this.providers.Router.Get.config;
 
-          const oldChild = routes.filter(x => x.path === key)[0];
-          const currentRoute = routes.filter(x => x.path === currentState)[0];
+          const oldChild = routes.filter(x => x.path === key
+            || (x.children ? x.children.filter(y => y.path === key).length > 0 : false))[0];
+          const currentRoute = routes.filter(x => x.path === currentState
+          || (x.children ? x.children.filter(y => y.path === currentState).length > 0 : false))[0];
           if (oldChild) {
-            const redirect = routes.filter(x => x.path === '**')[0];
-            routes.splice(routes.indexOf(redirect), 1);
-            routes.splice(routes.indexOf(currentRoute), 1);
+            const children = oldChild.children ? oldChild.children.filter(x => x.path === key)[0] : undefined;
+            let redirect: Route;
+            if (!oldChild.children) {
+              redirect = routes.filter(x => x.path === '**')[0];
+              routes.splice(routes.indexOf(redirect), 1);
+            } else {
+              redirect = oldChild.children.filter(x => x.path === '**')[0];
+              oldChild.children.splice(oldChild.children.indexOf(redirect), 1);
+            }
+            if (currentRoute) {
+              if (!children) {
+                routes.splice(routes.indexOf(currentRoute), 1);
+              } else {
+                const index = currentRoute.children.indexOf(currentRoute.children.filter(x => x.path === currentState)[0]);
+                currentRoute.children.splice(index, 1);
+              }
+            }
             const newRoute: Route = {
-              path: currentState,
-              component: oldChild.component
+              path: currentState
             };
-            routes.push(newRoute);
-            routes.push(redirect);
+            if (!children) {
+              newRoute.component = oldChild.component;
+              routes.unshift(newRoute);
+              routes.push(redirect);
+            } else {
+              newRoute.component = children.component;
+              oldChild.children.unshift(newRoute);
+              oldChild.children.push(redirect);
+            }
             this.providers.Router.Get.resetConfig(routes);
 
             if ('/' + response.Data[this.api.Route.KeyField] !== response.Data[this.api.Route.PathField]) {
               this.providers.Router.Navigate(response.Data[this.api.Route.PathField]);
             }
 
-            routes.splice(routes.indexOf(newRoute), 1);
-            newRoute.canActivate = oldChild.canActivate;
-            routes.push(newRoute);
+            if (!children) {
+              routes.splice(routes.indexOf(newRoute), 1);
+              newRoute.canActivate = oldChild.canActivate;
+              routes.push(newRoute);
+            } else {
+              oldChild.children.splice(oldChild.children.indexOf(newRoute), 1);
+              newRoute.canActivate = children.canActivate;
+              oldChild.children.push(newRoute);
+            }
+
             this.providers.Router.Get.resetConfig(routes);
 
             if (response.Data[this.api.Route.LangField]) {
