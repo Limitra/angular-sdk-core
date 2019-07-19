@@ -6,6 +6,9 @@
     "declaration": true,
     "inlineSources": true,
     "types": [],
+    "paths": {
+      "sdk-core": ["../../dist/sdk-core"]
+    },
     "lib": [
       "dom",
       "es2018"
