@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import {RouteComponent} from './guards/route-guard';
+import {RouteGuard} from './guards/route-guard';
+import {RouteComponent} from './definitions/route-component';
 
 @NgModule({
-  imports: [
-    HttpClientModule
-  ],
   declarations: [
     RouteComponent
   ],
+  imports: [
+    HttpClientModule
+  ],
+  providers: [RouteGuard],
   exports: [
-
+    RouteComponent, HttpClientModule
   ]
 })
-export class SdkCoreModule {
-}
+export class SdkCoreModule { }

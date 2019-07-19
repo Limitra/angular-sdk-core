@@ -11,8 +11,8 @@ import {RouterProvider} from './router';
 
 @Injectable()
 export class SdkProviders {
-  constructor(@Inject(HttpClient) protected http: HttpClient,
-              @Inject(Router) protected router: Router) {}
+  constructor(@Inject(HttpClient) public http: HttpClient,
+              @Inject(Router) public router: Router) {}
 
   Storage = new StorageProvider();
   Http = new Http(this.http, this.Storage);

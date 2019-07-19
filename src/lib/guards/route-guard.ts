@@ -1,4 +1,4 @@
-import {Component, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Route, RouterStateSnapshot} from '@angular/router';
 import {catchError, map} from 'rxjs/operators';
 import {SdkProviders} from '../providers';
@@ -43,24 +43,33 @@ export class RouteGuard implements CanActivate {
 
           const oldChild = routes.filter(x => x.path === key
             || (x.children ? x.children.filter(y => y.path === key).length > 0 : false))[0];
-          const currentRoute = routes.filter(x => x.path === currentState
-          || (x.children ? x.children.filter(y => y.path === currentState).length > 0 : false))[0];
+          const currentRoute = routes.filter(x => (x.path === currentState && x.path !== key)
+          || (x.children ? x.children.filter(y => y.path === currentState && y.path !== key).length > 0 : false))[0];
           if (oldChild) {
             const children = oldChild.children ? oldChild.children.filter(x => x.path === key)[0] : undefined;
             let redirect: Route;
             if (!oldChild.children) {
               redirect = routes.filter(x => x.path === '**')[0];
-              routes.splice(routes.indexOf(redirect), 1);
+              const index = routes.indexOf(redirect);
+              if (index > -1) {
+                routes.splice(index, 1);
+              }
             } else {
               redirect = oldChild.children.filter(x => x.path === '**')[0];
-              oldChild.children.splice(oldChild.children.indexOf(redirect), 1);
+              const index = oldChild.children.indexOf(redirect);
+              if (index > -1) {
+                oldChild.children.splice(index, 1);
+              }
             }
             if (currentRoute) {
               if (!children) {
                 routes.splice(routes.indexOf(currentRoute), 1);
               } else {
-                const index = currentRoute.children.indexOf(currentRoute.children.filter(x => x.path === currentState)[0]);
-                currentRoute.children.splice(index, 1);
+                const index = currentRoute.children.indexOf(currentRoute.children
+                  .filter(x => x.path === currentState && x.path !== key)[0]);
+                if (index > -1) {
+                  currentRoute.children.splice(index, 1);
+                }
               }
             }
             const newRoute: Route = {
@@ -82,13 +91,19 @@ export class RouteGuard implements CanActivate {
             }
 
             if (!children) {
-              routes.splice(routes.indexOf(newRoute), 1);
+              const index = routes.indexOf(newRoute);
+              if (index > -1) {
+                routes.splice(index, 1);
+              }
               newRoute.canActivate = oldChild.canActivate;
-              routes.push(newRoute);
+              routes.unshift(newRoute);
             } else {
-              oldChild.children.splice(oldChild.children.indexOf(newRoute), 1);
+              const index = oldChild.children.indexOf(newRoute);
+              if (index > -1) {
+                oldChild.children.splice(index, 1);
+              }
               newRoute.canActivate = children.canActivate;
-              oldChild.children.push(newRoute);
+              oldChild.children.unshift(newRoute);
             }
 
             this.providers.Router.Get.resetConfig(routes);
@@ -122,8 +137,3 @@ export class RouteGuard implements CanActivate {
     }
   }
 }
-
-@Component({
-  template: ''
-})
-export class RouteComponent { }
