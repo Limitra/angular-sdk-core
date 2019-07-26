@@ -1,6 +1,6 @@
 import {Http} from './http';
 import {HttpClient} from '@angular/common/http';
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {StorageProvider} from './storage';
 import {UrlProvider} from './url';
 import {StringProvider} from './string';
@@ -11,8 +11,8 @@ import {RouterProvider} from './router';
 
 @Injectable()
 export class SdkProviders {
-  constructor(@Inject(HttpClient) public http: HttpClient,
-              @Inject(Router) public router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
   Storage = new StorageProvider();
   Http = new Http(this.http, this.Storage);

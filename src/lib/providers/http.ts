@@ -4,27 +4,42 @@ import {Observable, throwError} from 'rxjs';
 import {StorageProvider} from './storage';
 
 export class Http {
+  private texts: any;
   constructor(private http: HttpClient, private storage: StorageProvider) {
+   const lang = this.storage.Get('Localization_Lang');
+
+    if (lang) {
+      this.http.get('assets/limitra/interface.' + lang + '.json').subscribe(response => {
+        this.texts = response;
+      });
+    } else {
+      setTimeout(() => {
+        this.texts = {
+          ErrorClient: 'A client-side or network error occurred.',
+          ErrorServer: 'A server-side error occured.'
+        };
+      });
+    }
   }
 
-  Get(url: string, error: (HttpErrorResponse) => {} = null): Observable<any> {
+  Get(url: string, error: (HttpErrorResponse) => void = null): Observable<any> {
     return this.http.get(url, this.headers())
-      .pipe(catchError((response) => { if (error) { error(response); } return this.handleError(response); }));
+        .pipe(catchError((response) => { return this.handleError(response, error); }));
   }
 
-  Post(url: string, data: any, error: (HttpErrorResponse) => {} = null): Observable<any> {
+  Post(url: string, data: any, error: (HttpErrorResponse) => void = null): Observable<any> {
     return this.http.post(url, data, this.headers())
-      .pipe(catchError((response) => { if (error) { error(response); } return this.handleError(response); }));
+        .pipe(catchError((response) => { return this.handleError(response, error); }));
   }
 
-  Put(url: string, data: any, error: (HttpErrorResponse) => {} = null): Observable<any> {
+  Put(url: string, data: any, error: (HttpErrorResponse) => void = null): Observable<any> {
     return this.http.put(url, data, this.headers())
-      .pipe(catchError((response) => { if (error) { error(response); } return this.handleError(response); }));
+        .pipe(catchError((response) => { return this.handleError(response, error); }));
   }
 
-  Delete(url: string, error: (HttpErrorResponse) => {} = null): Observable<any> {
+  Delete(url: string, error: (HttpErrorResponse) => void = null): Observable<any> {
     return this.http.delete(url, this.headers())
-      .pipe(catchError((response) => { if (error) { error(response); } return this.handleError(response); }));
+      .pipe(catchError((response) => { return this.handleError(response, error); }));
   }
 
   private headers() {
@@ -36,19 +51,20 @@ export class Http {
     } : {};
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse, callback: (HttpErrorResponse) => void) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
+      if (callback) {
+        callback({ status: '4**', message: this.texts.ErrorClient, detail: error.error.message })
+      }
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+      if (callback) {
+        callback({ status: error.status || '5**', message: this.texts.ErrorServer, response: error.error });
+      }
     }
     // return an observable with a user-facing error message
-    return throwError(
-      'Something bad happened; please try again later.');
+    return throwError('');
   }
 }
