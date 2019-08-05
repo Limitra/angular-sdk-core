@@ -9,7 +9,7 @@ export class Http {
    const lang = this.storage.Get('Localization_Lang');
 
     if (lang) {
-      this.http.get('assets/limitra/interface.' + lang + '.json').subscribe(response => {
+      this.http.get('assets/locale/interface/' + lang + '.json').subscribe(response => {
         this.texts = response;
       });
     } else {
