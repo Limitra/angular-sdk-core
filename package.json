@@ -1,0 +1,46 @@
+{
+  "name": "@limitra/sdk-core",
+  "version": "0.0.3",
+  "description": "The Limitra Angular Sdk Core enables you to use the full-stack development techniques for Angular projects in a practical, functional and non-repetitive way and to achieve optimized results.",
+  "author": "Limitra <pom@limitra.com> (https://github.com/Limitra)",
+  "contributors": [
+    "Mustafa Nevfel <mnevfel@limitra.com> (https://github.com/mnevfel)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Limitra/angular-sdk-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Limitra/angular-sdk-core/issues"
+  },
+  "homepage": "https://github.com/Limitra/angular-sdk-core",
+  "keywords": [
+    "angular",
+    "javascript",
+    "typescript",
+    "sdk",
+    "core",
+    "directive",
+    "component",
+    "full-stack",
+    "limitra"
+  ],
+  "license": "BSD-2-Clause",
+  "peerDependencies": {
+    "@angular/common": "^8.1.2",
+    "@angular/core": "^8.1.2",
+    "rxjs": "^6.5.2",
+    "rxjs-compat": "^6.5.2",
+    "font-awesome": "^4.7.0",
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.1",
+    "jquery.easing": "1.4.1",
+    "popper.js": "^1.14.3",
+    "zone.js": "^0.9.1"
+  },
+  "main": "karma.conf.js",
+  "typings": "src/public-api.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
