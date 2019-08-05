@@ -27,8 +27,8 @@
   ],
   "license": "BSD-2-Clause",
   "peerDependencies": {
-    "@angular/common": "^8.1.2",
-    "@angular/core": "^8.1.2",
+    "@angular/common": "^8.2.0",
+    "@angular/core": "^8.2.0",
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.5.2",
     "font-awesome": "^4.7.0",
