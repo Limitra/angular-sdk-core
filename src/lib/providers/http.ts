@@ -61,8 +61,8 @@ export class Http {
     if (this.localization.Language) {
       headers.Language = this.localization.Language;
     }
-    if (this.localization.TimeZone) {
-      headers.TimeZone = this.localization.TimeZone;
+    if (this.localization.TimeZone || this.localization.TimeZone === 0) {
+      headers.TimeZone = this.localization.TimeZone.toString();
     }
     return {
       headers: new HttpHeaders(headers)
