@@ -6,7 +6,7 @@ import {StorageProvider} from './storage';
 export class Http {
   private texts: any;
   constructor(private http: HttpClient, private storage: StorageProvider) {
-   const lang = this.storage.Get('Localization_Lang');
+   const lang = this.storage.Get('Localization_Settings', '');
 
     if (lang) {
       this.http.get('assets/locale/interface/' + lang + '.json').subscribe(response => {
@@ -43,10 +43,12 @@ export class Http {
   }
 
   private headers() {
-    const jwt = this.storage.Get('Authorization_Header');
+    const jwt = this.storage.Get('Authorization');
     return jwt ? {
       headers: new HttpHeaders({
-        Authorization: jwt
+        Authorization: jwt,
+        Language: '',
+        TimeZone: ''
       })
     } : {};
   }

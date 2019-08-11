@@ -11,7 +11,7 @@ export class StorageProvider {
       const item = localStorage.getItem(key);
       if (item) {
         const obj = JSON.parse(item);
-        if (subKey) {
+        if (subKey && obj) {
           return obj[subKey];
         } else {
           return obj;
