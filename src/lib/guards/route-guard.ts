@@ -25,7 +25,7 @@ export class RouteGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-    this.lang = this.providers.Storage.Get('Localization_Lang') || '';
+    this.lang = this.providers.Storage.Get('Localization_Settings', 'Language') || '';
     const currentState = state.url.split(/[?#]/)[0].substring(1, state.url.length);
     if (this.api && this.api.Domain && this.api.Route && this.api.Route.Guard) {
       const params: any = {
@@ -109,7 +109,7 @@ export class RouteGuard implements CanActivate {
             this.providers.Router.Get.resetConfig(routes);
 
             if (response.Data[this.api.Route.LangField]) {
-              this.providers.Storage.Set('Localization_Lang', response.Data[this.api.Route.LangField]);
+              this.providers.Storage.Set('Localization_Settings', response.Data[this.api.Route.LangField], 'Language');
             }
             return true;
           } else {
