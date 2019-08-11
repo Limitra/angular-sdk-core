@@ -1,9 +1,11 @@
 export class StorageProvider {
   Set(key, obj, subKey = null) {
-    let assign = this.Get(key);
+    let assign = this.Get(key, subKey);
+    assign = subKey ? (typeof(assign) === 'object' ? assign : {}) : assign;
     const value = JSON.stringify(obj);
     if (subKey && assign) {
       assign[subKey] = value;
+      assign = JSON.stringify(assign);
     } else {
       assign = value;
     }
