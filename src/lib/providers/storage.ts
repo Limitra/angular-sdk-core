@@ -1,8 +1,19 @@
 export class StorageProvider {
-  Set(key, obj) {
+  Set(key, obj, subKey = null) {
+    let assign = this.Get(key);
     const value = JSON.stringify(obj);
+    if (subKey && assign) {
+      assign[subKey] = value;
+    } else {
+      assign = value;
+    }
+
     try {
-      localStorage.setItem(key, value);
+      if (assign) {
+        localStorage.setItem(key, assign);
+      } else {
+        this.Remove(key);
+      }
     } catch (e) { }
   }
 
@@ -21,7 +32,11 @@ export class StorageProvider {
     } catch (e) { }
   }
 
-  Remove(key) {
-    localStorage.removeItem(key);
+  Remove(key, subKey = null) {
+    if (subKey) {
+      this.Set(key, undefined, subKey);
+    } else {
+      localStorage.removeItem(key);
+    }
   }
 }
