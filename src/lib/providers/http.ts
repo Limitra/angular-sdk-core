@@ -55,8 +55,8 @@ export class Http {
   private headers() {
     const jwt = this.storage.Get('Authentication_Settings');
     const headers: any = {};
-    if (jwt && jwt.Prefix && jwt.Token) {
-      headers.Authorization = jwt.Prefix + ' ' + jwt.Token;
+    if (jwt && jwt.Token) {
+      headers.Authorization = jwt.Token;
     }
     if (this.localization.Language) {
       headers.Language = this.localization.Language;
