@@ -6,11 +6,16 @@ export class StorageProvider {
     } catch (e) { }
   }
 
-  Get(key) {
+  Get(key, subKey = null) {
     try {
       const item = localStorage.getItem(key);
       if (item) {
-        return JSON.parse(item);
+        const obj = JSON.parse(item);
+        if (subKey) {
+          return obj[subKey];
+        } else {
+          return obj;
+        }
       }
       return item;
     } catch (e) { }
