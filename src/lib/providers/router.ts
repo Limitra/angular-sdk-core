@@ -8,4 +8,8 @@ export class RouterProvider {
   Navigate(href: string, obj: any = null) {
     this.router.navigate([href], {queryParams: obj});
   }
+
+  Redirect(href: string) {
+    this.router.navigateByUrl(href);
+  }
 }
