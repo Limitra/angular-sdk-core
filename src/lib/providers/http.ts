@@ -93,9 +93,9 @@ export class Http {
       // The response body may contain clues as to what went wrong,
       if (callback) {
         callback({status: error.status || '5**', message: this.texts.ErrorServer, response: error.error});
-        if (error.error && error.error.Status === 401) {
-          this.handleKick();
-        }
+      }
+      if (error.error && error.error.Status === 401) {
+        this.handleKick();
       }
     }
     // return an observable with a user-facing error message
