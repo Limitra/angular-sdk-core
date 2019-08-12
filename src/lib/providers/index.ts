@@ -15,10 +15,10 @@ export class SdkProviders {
   }
 
   Storage = new StorageProvider();
-  Http = new Http(this.http, this.Storage);
   Url = new UrlProvider();
   String = new StringProvider();
   Number = new NumberProvider();
   Screen = new ScreenProvider();
   Router = new RouterProvider(this.router);
+  Http = new Http(this.http, this.Router, this.Storage);
 }
