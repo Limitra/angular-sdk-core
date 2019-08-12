@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { CanActivateChild }  from '@angular/router';
+import { CanActivateChild } from '@angular/router';
 import {SdkProviders} from '../providers';
 
 @Injectable({

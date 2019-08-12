@@ -2,7 +2,9 @@ import {Injectable} from '@angular/core';
 import {CanActivateChild} from '@angular/router';
 import {SdkProviders} from '../providers';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AccountGuard implements CanActivateChild {
   constructor(private providers: SdkProviders) {
   }
