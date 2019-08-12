@@ -59,7 +59,7 @@ export class Http {
 
     if (jwt && jwt.KeepSession && jwt.Expire) {
       if (jwt.Expire ? jwt.Expire < expire : false) {
-        this.storage.Set('Authentication_Settings', undefined, 'Token');
+        this.handleKick();
       } else {
         this.storage.Set('Authentication_Settings', expire + (((jwt ? jwt.TimeOut : undefined) || 15) * 60 * 1000), 'Expire');
       }
@@ -94,15 +94,19 @@ export class Http {
       if (callback) {
         callback({status: error.status || '5**', message: this.texts.ErrorServer, response: error.error});
         if (error.error && error.error.Status === 401) {
-          const login = this.storage.Get('Authentication_Settings', 'Login');
-          this.storage.Set('Authentication_Settings', undefined, 'Token');
-          if (login) {
-            this.router.Navigate(login);
-          }
+          this.handleKick();
         }
       }
     }
     // return an observable with a user-facing error message
     return throwError('');
+  }
+
+  private handleKick() {
+    const login = this.storage.Get('Authentication_Settings', 'Login');
+    this.storage.Set('Authentication_Settings', undefined, 'Token');
+    if (login) {
+      this.router.Navigate(login);
+    }
   }
 }
