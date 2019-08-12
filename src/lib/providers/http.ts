@@ -107,6 +107,8 @@ export class Http {
     this.storage.Set('Authentication_Settings', undefined, 'Token');
     if (login) {
       this.router.Navigate(login);
+    } else {
+      window.location.reload();
     }
   }
 }
