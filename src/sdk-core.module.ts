@@ -8,6 +8,7 @@ import {SdkProviders} from './lib/providers';
 import {HttpClientModule} from '@angular/common/http';
 import {SessionGuard} from './lib/guards/session-guard';
 import {AccountGuard} from './lib/guards/account-guard';
+import {CookieService} from 'ngx-cookie-service';
 
 export * from './lib/guards/route-guard';
 export * from './lib/guards/session-guard';
@@ -23,7 +24,8 @@ export * from './lib/providers/index';
   imports: [HttpClientModule],
   providers: [
     SessionGuard,
-    AccountGuard
+    AccountGuard,
+    CookieService
   ],
   exports: [
     RouteComponent

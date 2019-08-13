@@ -29,6 +29,7 @@
   "peerDependencies": {
     "@angular/common": "^8.2.0",
     "@angular/core": "^8.2.0",
+    "ngx-cookie-service": "^2.2.0",
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.5.2",
     "font-awesome": "^4.7.0",

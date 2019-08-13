@@ -1,4 +1,8 @@
+import { CookieService } from 'ngx-cookie-service';
+
 export class StorageProvider {
+  constructor(private cookie: CookieService) {}
+
   Set(key, obj, subKey = null) {
     let assign = this.Get(key);
     assign = subKey ? (assign && typeof(assign) === 'object' ? assign : {}) : assign;
@@ -12,7 +16,7 @@ export class StorageProvider {
 
     try {
       if (assign) {
-        localStorage.setItem(key, assign);
+        this.cookie.set(key, assign, 365, '/', window.location.hostname, false, 'Strict');
       } else {
         this.Remove(key);
       }
@@ -21,7 +25,7 @@ export class StorageProvider {
 
   Get(key, subKey = null) {
     try {
-      const item = localStorage.getItem(key);
+      const item = this.cookie.get(key);
       if (item) {
         const obj = JSON.parse(item);
         if (subKey && obj) {
@@ -38,7 +42,7 @@ export class StorageProvider {
     if (subKey) {
       this.Set(key, undefined, subKey);
     } else {
-      localStorage.removeItem(key);
+      this.cookie.delete(key);
     }
   }
 }
