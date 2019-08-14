@@ -53,8 +53,8 @@ export class Http {
       }));
   }
 
-  private headers() {
-    let jwt = this.storage.Get('Authentication_Settings');
+  Initialize() {
+    const jwt = this.storage.Get('Authentication_Settings');
     const expire = new Date().getTime();
 
     if (jwt && jwt.KeepSession && jwt.Expire) {
@@ -64,7 +64,11 @@ export class Http {
         this.storage.Set('Authentication_Settings', expire + (((jwt ? jwt.TimeOut : undefined) || 15) * 60 * 1000), 'Expire');
       }
     }
-    jwt = this.storage.Get('Authentication_Settings');
+    return this.storage.Get('Authentication_Settings');
+  }
+
+  private headers() {
+    const jwt = this.Initialize();
 
     const headers: any = {};
     if (jwt && jwt.Token) {
