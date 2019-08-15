@@ -98,7 +98,7 @@ export class Http {
       if (callback) {
         callback({status: error.status || '5**', message: this.texts.ErrorServer, response: error.error});
       }
-      if (error.error && error.error.Status === 401) {
+      if (error.error && error.error.Status === 403) {
         this.handleKick();
       }
     }
