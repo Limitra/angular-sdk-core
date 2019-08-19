@@ -9,12 +9,14 @@ import {ScreenProvider} from './screen';
 import {Router} from '@angular/router';
 import {RouterProvider} from './router';
 import {CookieService} from 'ngx-cookie-service';
+import {BindProvider} from './bind';
 
 @Injectable()
 export class SdkProviders {
   constructor(private http: HttpClient, private router: Router, private cookie: CookieService) {
   }
 
+  Bind = new BindProvider();
   Storage = new StorageProvider(this.cookie);
   Url = new UrlProvider();
   String = new StringProvider();
