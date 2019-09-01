@@ -1,4 +1,4 @@
-import {isDevMode} from "@angular/core";
+import {isDevMode} from '@angular/core';
 
 export class BindProvider {
   Track(index: number, obj: any): any {
