@@ -29,7 +29,7 @@ export class StorageProvider {
       if (item) {
         const obj = JSON.parse(item);
         if (subKey && obj) {
-          return obj[subKey];
+          return JSON.parse(obj[subKey]);
         } else {
           return obj;
         }
