@@ -9,11 +9,13 @@ import {HttpClientModule} from '@angular/common/http';
 import {SessionGuard} from './lib/guards/session-guard';
 import {AccountGuard} from './lib/guards/account-guard';
 import {CookieService} from 'ngx-cookie-service';
+import {DeviceDetectorModule} from 'ngx-device-detector';
 
 export * from './lib/guards/route-guard';
 export * from './lib/guards/session-guard';
 export * from './lib/guards/account-guard';
 export * from './lib/definitions/screen-size';
+export * from './lib/definitions/device';
 export * from './lib/definitions/route-component';
 export * from './lib/providers/index';
 
@@ -21,7 +23,7 @@ export * from './lib/providers/index';
   declarations: [
     RouteComponent
   ],
-  imports: [HttpClientModule],
+  imports: [HttpClientModule, DeviceDetectorModule.forRoot()],
   providers: [
     SessionGuard,
     AccountGuard,

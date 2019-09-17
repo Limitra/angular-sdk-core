@@ -10,13 +10,16 @@ import {Router} from '@angular/router';
 import {RouterProvider} from './router';
 import {CookieService} from 'ngx-cookie-service';
 import {BindProvider} from './bind';
+import {DeviceProvider} from './device';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Injectable()
 export class SdkProviders {
-  constructor(private http: HttpClient, private router: Router, private cookie: CookieService) {
+  constructor(private http: HttpClient, private router: Router, private cookie: CookieService, private device: DeviceDetectorService) {
   }
 
   Bind = new BindProvider();
+  Device = new DeviceProvider(this.device);
   Storage = new StorageProvider(this.cookie);
   Url = new UrlProvider();
   String = new StringProvider();
