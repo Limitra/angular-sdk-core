@@ -57,7 +57,7 @@ export class Http {
     const jwt = this.storage.Get('Authentication_Settings');
     const expire = new Date().getTime();
 
-    if (jwt && jwt.KeepSession && jwt.Expire) {
+    if (jwt && jwt.KeepSession && jwt.Expire && jwt.Base && window.location.pathname.startsWith(jwt.Base)) {
       if (jwt.Expire ? jwt.Expire < expire : false) {
         this.handleKick();
       } else {
