@@ -25,6 +25,15 @@ export class Http {
     }
   }
 
+  File(url: string, error: (HttpErrorResponse) => void = null): Observable<any> {
+    const headers: any = this.headers();
+    headers.responseType = 'arraybuffer';
+    return this.http.get(url, headers)
+      .pipe(catchError((response) => {
+        return this.handleError(response, error);
+      }));
+  }
+
   Get(url: string, error: (HttpErrorResponse) => void = null): Observable<any> {
     return this.http.get(url, this.headers())
       .pipe(catchError((response) => {
