@@ -12,6 +12,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {BindProvider} from './bind';
 import {DeviceProvider} from './device';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {DateProvider} from './date';
 
 @Injectable()
 export class SdkProviders {
@@ -24,6 +25,7 @@ export class SdkProviders {
   Url = new UrlProvider();
   String = new StringProvider();
   Number = new NumberProvider();
+  Date = new DateProvider();
   Screen = new ScreenProvider();
   Router = new RouterProvider(this.router);
   Http = new Http(this.http, this.Router, this.Storage);
