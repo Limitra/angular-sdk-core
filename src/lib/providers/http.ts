@@ -123,6 +123,9 @@ export class Http {
                 headers: new HttpHeaders(headers)
               });
             }, () => {
+              if (jwt && jwt.SecurityLocalToken) {
+                headers.SecurityToken = jwt.SecurityLocalToken;
+              }
               resolve({
                 headers: new HttpHeaders(headers)
               });
