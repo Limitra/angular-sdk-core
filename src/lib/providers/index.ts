@@ -28,5 +28,5 @@ export class SdkProviders {
   Date = new DateProvider();
   Screen = new ScreenProvider();
   Router = new RouterProvider(this.router);
-  Http = new Http(this.http, this.Router, this.Storage, this.String, this.Device);
+  Http = new Http(this.http, this.Router, this.Storage, this.Device);
 }
