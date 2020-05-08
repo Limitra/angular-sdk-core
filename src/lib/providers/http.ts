@@ -3,12 +3,14 @@ import {catchError} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 import {StorageProvider} from './storage';
 import {RouterProvider} from './router';
+import {DeviceProvider} from './device';
 
 export class Http {
   private localization: any;
   private texts: any;
 
-  constructor(private http: HttpClient, private router: RouterProvider, private storage: StorageProvider) {
+  constructor(private http: HttpClient, private router: RouterProvider, private storage: StorageProvider,
+              private device: DeviceProvider) {
     this.localization = this.storage.Get('Localization_Settings') || {};
 
     if (this.localization.Language) {
@@ -79,7 +81,9 @@ export class Http {
   private headers() {
     const jwt = this.Initialize();
 
-    const headers: any = {};
+    const headers: any = {
+      Device: this.device.Get()
+    };
     if (jwt && jwt.Token) {
       headers.Authorization = jwt.Token;
     }
