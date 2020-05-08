@@ -108,7 +108,7 @@ export class Http {
 
       if (jwt && jwt.SecurityKey) {
         let method = url.includes('?') ? url.split('?')[0] : url;
-        method = url.includes('&') ? url.split('&')[0] : url;
+        method = method.includes('&') ? method.split('&')[0] : method;
         method = this.str.Replace(method, '/', '');
         method = this.str.Replace(method, ':', '');
         method = this.str.Replace(method, '.', '');
