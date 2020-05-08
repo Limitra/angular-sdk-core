@@ -123,7 +123,7 @@ export class Http {
                 headers: new HttpHeaders(headers)
               });
             }, () => {
-              if (jwt && jwt.SecurityLocalToken) {
+              if (jwt && jwt.SecurityLocalToken && window.location.hostname === 'localhost') {
                 headers.SecurityToken = jwt.SecurityLocalToken;
               }
               resolve({
