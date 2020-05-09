@@ -8,6 +8,7 @@ import {DeviceProvider} from './device';
 export class Http {
   private localization: any;
   private texts: any;
+  private customHeaders: any;
 
   constructor(private http: HttpClient, private router: RouterProvider, private storage: StorageProvider,
               private device: DeviceProvider) {
@@ -64,6 +65,14 @@ export class Http {
       }));
   }
 
+  SetHeaders(custom: any) {
+    this.customHeaders = custom;
+  }
+
+  ClearHeaders() {
+    delete this.customHeaders;
+  }
+
   Initialize() {
     const jwt = this.storage.Get('Authentication_Settings');
     const expire = new Date().getTime();
@@ -82,22 +91,17 @@ export class Http {
     const jwt = this.Initialize();
 
     const device = this.device.Get();
-    const headers: any = {
-      UserAgent: device.UserAgent,
-      OS: device.OS,
-      OSVersion: device.OSVersion,
-      Browser: device.Browser,
-      BrowserVersion: device.BrowserVersion,
-      Device: device.Device,
-      DeviceType: device.DeviceType
-    };
+    const headers: any = this.customHeaders || {};
+    headers.UserAgent = device.UserAgent;
+    headers.OS = device.OS;
+    headers.OSVersion = device.OSVersion;
+    headers.Browser = device.Browser;
+    headers.BrowserVersion = device.BrowserVersion;
+    headers.Device = device.Device;
+    headers.DeviceType = device.DeviceType;
+
     if (jwt && jwt.Token) {
       headers.Authorization = jwt.Token;
-    }
-    if (jwt && jwt.SecurityToken) {
-      headers.SecurityToken = jwt.SecurityToken;
-    } else if (jwt && jwt.SecurityLocalToken && window.location.hostname === 'localhost') {
-      headers.SecurityToken = jwt.SecurityLocalToken;
     }
     if (this.localization.Language) {
       headers.Language = this.localization.Language;
