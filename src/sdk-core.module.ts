@@ -9,7 +9,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {SessionGuard} from './lib/guards/session-guard';
 import {AccountGuard} from './lib/guards/account-guard';
 import {CookieService} from 'ngx-cookie-service';
-import {DeviceDetectorModule} from 'ngx-device-detector';
 
 export * from './lib/guards/route-guard';
 export * from './lib/guards/session-guard';
@@ -23,7 +22,7 @@ export * from './lib/providers/index';
   declarations: [
     RouteComponent
   ],
-  imports: [HttpClientModule, DeviceDetectorModule.forRoot()],
+  imports: [HttpClientModule],
   providers: [
     SessionGuard,
     AccountGuard,
@@ -34,7 +33,7 @@ export * from './lib/providers/index';
   ]
 })
 export class SdkCoreModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SdkCoreModule> {
     return {
       ngModule: SdkCoreModule,
       providers: [SdkProviders]
