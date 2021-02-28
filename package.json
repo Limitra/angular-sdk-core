@@ -1,6 +1,6 @@
 {
   "name": "@limitra/sdk-core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "The Limitra Angular Sdk Core enables you to use the full-stack development techniques for Angular projects in a practical, functional and non-repetitive way and to achieve optimized results.",
   "author": "Limitra <pom@limitra.com> (https://github.com/Limitra)",
   "contributors": [
@@ -27,18 +27,18 @@
   ],
   "license": "BSD-2-Clause",
   "peerDependencies": {
-    "@angular/common": "^10.1.5",
-    "@angular/core": "^10.1.5",
-    "ngx-cookie-service": "^10.1.1",
-    "ngx-device-detector": "^2.0.0",
-    "rxjs": "^6.6.3",
-    "rxjs-compat": "^6.6.3",
+    "@angular/common": "^11.2.3",
+    "@angular/core": "^11.2.3",
+    "ngx-cookie-service": "^11.0.2",
+    "ngx-device-detector": "^2.0.6",
+    "rxjs": "^6.6.6",
+    "rxjs-compat": "^6.6.6",
     "font-awesome": "^4.7.0",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^4.6.0",
     "jquery": "^3.5.1",
     "jquery.easing": "^1.4.1",
     "popper.js": "^1.16.1",
-    "zone.js": "^0.11.1"
+    "zone.js": "^0.11.4"
   },
   "main": "karma.conf.js",
   "scripts": {
