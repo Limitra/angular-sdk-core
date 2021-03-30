@@ -1,6 +1,6 @@
 {
   "name": "@limitra/sdk-core",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "The Limitra Angular Sdk Core enables you to use the full-stack development techniques for Angular projects in a practical, functional and non-repetitive way and to achieve optimized results.",
   "author": "Limitra <pom@limitra.com> (https://github.com/Limitra)",
   "contributors": [
