@@ -91,6 +91,24 @@ export class Http {
       }));
   }
 
+  Download(response: any) {
+    const header = response.headers.get('content-disposition');
+    let filename = header.split('=')[1];
+    filename = filename.substring(1, filename.length - 1);
+    const extension = filename.split('.')[1].toLowerCase();
+    const newBlob = new Blob([response.body], { type: response.body.type });
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveOrOpenBlob(newBlob);
+      return;
+    }
+    const data = window.URL.createObjectURL(newBlob);
+    const link = document.createElement('a');
+    link.href = data;
+    link.download = filename;
+    link.click();
+    setTimeout(() => { window.URL.revokeObjectURL(data); }, 400);
+  }
+
   Initialize() {
     const jwt = this.storage.Get('Authentication_Settings');
     const expire = new Date().getTime();
