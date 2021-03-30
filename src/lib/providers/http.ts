@@ -28,13 +28,14 @@ export class Http {
   }
 
   Get(url: string, config: any = {}): Observable<any> {
-    const headers: any = this.headers();
+    let headers: any = this.headers();
     if (config.headers) {
       config.headers.forEach(header => {
         (headers.headers as HttpHeaders).append(header.key, header.value)
       });
     }
-    if (config.responseType) { headers.responseType = config.responseType; }
+    delete config.headers;
+    headers = {...headers, ...config};
 
     return this.http.get(url, headers)
       .pipe(catchError((response) => {
@@ -43,13 +44,14 @@ export class Http {
   }
 
   Post(url: string, data: any, config: any = {}): Observable<any> {
-    const headers: any = this.headers();
+    let headers: any = this.headers();
     if (config.headers) {
       config.headers.forEach(header => {
         (headers.headers as HttpHeaders).append(header.key, header.value)
       });
     }
-    if (config.responseType) { headers.responseType = config.responseType; }
+    delete config.headers;
+    headers = {...headers, ...config};
 
     return this.http.post(url, data, headers)
       .pipe(catchError((response) => {
@@ -58,13 +60,14 @@ export class Http {
   }
 
   Put(url: string, data: any, config: any = {}): Observable<any> {
-    const headers: any = this.headers();
+    let headers: any = this.headers();
     if (config.headers) {
       config.headers.forEach(header => {
         (headers.headers as HttpHeaders).append(header.key, header.value)
       });
     }
-    if (config.responseType) { headers.responseType = config.responseType; }
+    delete config.headers;
+    headers = {...headers, ...config};
 
     return this.http.put(url, data, headers)
       .pipe(catchError((response) => {
@@ -73,13 +76,14 @@ export class Http {
   }
 
   Delete(url: string, config: any = {}): Observable<any> {
-    const headers: any = this.headers();
+    let headers: any = this.headers();
     if (config.headers) {
       config.headers.forEach(header => {
         (headers.headers as HttpHeaders).append(header.key, header.value)
       });
     }
-    if (config.responseType) { headers.responseType = config.responseType; }
+    delete config.headers;
+    headers = {...headers, ...config};
 
     return this.http.delete(url, headers)
       .pipe(catchError((response) => {
