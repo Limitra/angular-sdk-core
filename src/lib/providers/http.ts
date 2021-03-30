@@ -8,7 +8,6 @@ import {DeviceProvider} from './device';
 export class Http {
   private localization: any;
   private texts: any;
-  private customHeaders: any;
 
   constructor(private http: HttpClient, private router: RouterProvider, private storage: StorageProvider,
               private device: DeviceProvider) {
@@ -28,49 +27,64 @@ export class Http {
     }
   }
 
-  File(url: string, error: (HttpErrorResponse) => void = null): Observable<any> {
+  Get(url: string, config: any = {}): Observable<any> {
     const headers: any = this.headers();
-    headers.responseType = 'arraybuffer';
+    if (config.headers) {
+      config.headers.forEach(header => {
+        (headers.headers as HttpHeaders).append(header.key, header.value)
+      });
+    }
+    if (config.responseType) { headers.responseType = config.responseType; }
+
     return this.http.get(url, headers)
       .pipe(catchError((response) => {
-        return this.handleError(response, error);
+        return this.handleError(response, config.error);
       }));
   }
 
-  Get(url: string, error: (HttpErrorResponse) => void = null): Observable<any> {
-    return this.http.get(url, this.headers())
+  Post(url: string, data: any, config: any = {}): Observable<any> {
+    const headers: any = this.headers();
+    if (config.headers) {
+      config.headers.forEach(header => {
+        (headers.headers as HttpHeaders).append(header.key, header.value)
+      });
+    }
+    if (config.responseType) { headers.responseType = config.responseType; }
+
+    return this.http.post(url, data, headers)
       .pipe(catchError((response) => {
-        return this.handleError(response, error);
+        return this.handleError(response, config.error);
       }));
   }
 
-  Post(url: string, data: any, error: (HttpErrorResponse) => void = null): Observable<any> {
-    return this.http.post(url, data, this.headers())
+  Put(url: string, data: any, config: any = {}): Observable<any> {
+    const headers: any = this.headers();
+    if (config.headers) {
+      config.headers.forEach(header => {
+        (headers.headers as HttpHeaders).append(header.key, header.value)
+      });
+    }
+    if (config.responseType) { headers.responseType = config.responseType; }
+
+    return this.http.put(url, data, headers)
       .pipe(catchError((response) => {
-        return this.handleError(response, error);
+        return this.handleError(response, config.error);
       }));
   }
 
-  Put(url: string, data: any, error: (HttpErrorResponse) => void = null): Observable<any> {
-    return this.http.put(url, data, this.headers())
+  Delete(url: string, config: any = {}): Observable<any> {
+    const headers: any = this.headers();
+    if (config.headers) {
+      config.headers.forEach(header => {
+        (headers.headers as HttpHeaders).append(header.key, header.value)
+      });
+    }
+    if (config.responseType) { headers.responseType = config.responseType; }
+
+    return this.http.delete(url, headers)
       .pipe(catchError((response) => {
-        return this.handleError(response, error);
+        return this.handleError(response, config.error);
       }));
-  }
-
-  Delete(url: string, error: (HttpErrorResponse) => void = null): Observable<any> {
-    return this.http.delete(url, this.headers())
-      .pipe(catchError((response) => {
-        return this.handleError(response, error);
-      }));
-  }
-
-  SetHeaders(custom: any) {
-    this.customHeaders = custom;
-  }
-
-  ClearHeaders() {
-    delete this.customHeaders;
   }
 
   Initialize() {
@@ -91,7 +105,7 @@ export class Http {
     const jwt = this.Initialize();
 
     const device = this.device.Get();
-    const headers: any = this.customHeaders || {};
+    const headers: any = {};
     headers.UserAgent = device.UserAgent;
     headers.OS = device.OS;
     headers.OSVersion = device.OSVersion;
